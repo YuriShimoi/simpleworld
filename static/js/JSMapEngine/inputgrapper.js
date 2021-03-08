@@ -9,6 +9,7 @@ class InputGrapper {
     this.mouse    = new Grapper(this.#container, "mouseup", "mousedown");
   }
 
+
   /** Change element references, inflicts directly on mouse grapper coordinates
    * 
    * @param {HTMLElement} e
@@ -68,6 +69,7 @@ class Grapper {
     this._downEvent(down_event);
   }
 
+  
   /** Change element references, inflicts directly on mouse grapper coordinates
    * 
    * @param {HTMLElement} e
