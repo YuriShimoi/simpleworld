@@ -7,12 +7,12 @@ class Engine {
   static _jquery_version = "3.6.0";
   static _folder_name    = "JSMapEngine";
   static _packages       = ["inputgrapper.js","display.js","display.css"];
+  static _file_path      = null;
 
   constructor(){
     let has_jquery = this._checkFromJQuery(true);
     if(has_jquery){
-      this._file_path = $(`script[src*="${Engine._folder_name}"]`).attr("src").split('/').slice(0,-1).join('/') + '/';
-      Engine._packages.forEach(p => this.import(p));
+      Engine._packages.forEach(p => Engine.import(p));
     }
     else{
       console.error("Engine could'n initialize, fix JQuery import.");
@@ -24,7 +24,9 @@ class Engine {
    * 
    * @param {String} src - See examples on Engine._packages default imports
    */
-  import(src){
+  static import(src){
+    if(!Engine._file_path) Engine._findFilePath();
+
     let extension = src.split('.').slice(-1)[0];
     switch(extension){
       case 'js':
@@ -51,5 +53,9 @@ class Engine {
     }
 
     return has_jquery;
+  }
+
+  static _findFilePath(){
+    Engine._file_path = $(`script[src*="${Engine._folder_name}"]`).attr("src").split('/').slice(0,-1).join('/') + '/';
   }
 }
