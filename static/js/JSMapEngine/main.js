@@ -1,6 +1,6 @@
 /** Engine core for JSMapEnine
  * 
- * All method names initializing with _ are for internal use of the class only
+ * All method/attribute names initializing with _ are for internal use of the class only
  */
 class Engine {
   static _version        = "1.0.0";

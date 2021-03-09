@@ -1,8 +1,15 @@
+/** REQUIRED http://joeiddon.github.io/perlin/perlin.js */
+
+/** 
+ * 
+ * All method/attribute names initializing with _ are for internal use of the class only
+ */
 class GridProcedure {
+  static _fill_map = (method, size) => new Array(size.x).fill().map((_,x) => new Array(size.y).fill().map((_,y) => method(x,y)));
+
   static prop = {
     'perlin': {
       'smooth': 0.05,
-      'round' : 0.1,
       'basis' : 0.5,
       'max'   : 1,
       'min'   : 0
@@ -18,7 +25,8 @@ class GridProcedure {
     let gen = {
       'perlin'  : GridProcedure.perlin,
       'cellular': GridProcedure.cellular,
-      'linear'  : GridProcedure.gradient
+      'gradient': GridProcedure.gradient,
+      'random'  : GridProcedure.random
     };
 
     return gen[type](sizes);
@@ -26,11 +34,8 @@ class GridProcedure {
 
   static perlin(size){
     let map = GridProcedure._cleanMap(size);
-    // Perlin Noise - https://gpfault.net/posts/perlin-noise.txt.html
-
-
-
-    return map;
+    // Perlin Noise - https://joeiddon.github.io/projects/javascript/perlin
+    return GridProcedure._fill_map((x,y) => perlin.get(x/size.x, y/size.y), size);
   }
 
   static cellular(size){
@@ -43,7 +48,11 @@ class GridProcedure {
   }
 
   static gradient(size){
-    return new Array(size.x).fill().map((_,x) => new Array(size.y).fill().map((_,y) => x+y));
+    return GridProcedure._fill_map((x,y) => x+y, size);
+  }
+
+  static random(size){
+    return GridProcedure._fill_map((x,y) => Math.random(), size);
   }
 
 

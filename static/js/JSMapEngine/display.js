@@ -1,38 +1,38 @@
 /** Core of visual treatments on engine
  * 
- * All method names initializing with _ are for internal use of the class only
+ * All method/attribute names initializing with _ are for internal use of the class only
  */
 class Display {
-  #container    = null;
-  #canvas       = null;
-  #context      = null;
+  _container    = null;
+  _canvas       = null;
+  _context      = null;
 
-  #canvas_class    = "JSME-canvas";
-  #pixelated_class = "canvas-pixelated";
-  #properties      = {
+  _canvas_class    = "JSME-canvas";
+  _pixelated_class = "canvas-pixelated";
+  _properties      = {
     'width'        : "1280",
     'height'       : "720",
-    'class'        : this.#canvas_class,
+    'class'        : this._canvas_class,
     'oncontextmenu': "return false" // cancel mouse right click menu
   };
 
   constructor(e=null){
-    this.#container = $(e)[0];
+    this._container = $(e)[0];
   }
 
 
   /** Creates the canvas with some internal properties in addition to the optional given ones
    * 
    * @param {Object} prop - E.g. {class:"my_class", id:"my_id", width:"640", height:"360"}
-   * @returns {HTMLElement} reference to canvas
+   * @returns {HTMLElement} Reference to canvas
    */
   createCanvas(prop={}, pixelated=true){
-    if(!this.#container) return false;
+    if(!this._container) return false;
 
-    prop['class'] = 'class' in prop? `${prop.class} ${this.#canvas_class}`: this.#canvas_class;
-    prop = {...this.#properties, ...prop};
+    prop['class'] = 'class' in prop? `${prop.class} ${this._canvas_class}`: this._canvas_class;
+    prop = {...this._properties, ...prop};
     
-    if(pixelated) prop.class += ` ${this.#pixelated_class}`;
+    if(pixelated) prop.class += ` ${this._pixelated_class}`;
 
     let properties = "";
     for(let p in prop){
@@ -41,14 +41,14 @@ class Display {
 
     let canvas = `<canvas ${properties}></canvas>`;
 
-    if(this.#canvas) this.#canvas.remove();
-    $(this.#container).append(canvas);
-    this.#canvas = $(this.#container).find(`.${this.#canvas_class}`)[0];
+    if(this._canvas) this._canvas.remove();
+    $(this._container).append(canvas);
+    this._canvas = $(this._container).find(`.${this._canvas_class}`)[0];
 
-    this.#context = this.#canvas.getContext("2d");
-    this.#context.imageSmoothingEnabled = !pixelated;
+    this._context = this._canvas.getContext("2d");
+    this._context.imageSmoothingEnabled = !pixelated;
 
-    return this.#canvas;
+    return this._canvas;
   }
 
   /** Draw the DrawObject on context
@@ -57,10 +57,10 @@ class Display {
    * @returns If has no canvas or context set, will return false
    */
   draw(draw_obj){
-    if(!this.#canvas || !this.#context) return false;
+    if(!this._canvas || !this._context) return false;
 
     // drawimage > (image, clip_start_x, clip_start_y, clip_size_x, clip_size_y, canvas_x, canvas_y, size_x, size_y)
-    this.#context.drawImage(
+    this._context.drawImage(
       draw_obj.render.img,
       draw_obj.render.img.start.x,
       draw_obj.render.img.start.y,
@@ -77,7 +77,7 @@ class Display {
 
 /** Object with a serie of properties needed to draw in Display canvas
  * 
- * All method names initializing with _ are for internal use of the class only
+ * All method/attribute names initializing with _ are for internal use of the class only
  */
 class DrawObject {
   constructor(render, pos_x, pos_y){
@@ -90,7 +90,7 @@ class DrawObject {
    * 
    * @param {Number} pos_x 
    * @param {Number} pos_y 
-   * @param {Boolean} additive - if is additive to actual position
+   * @param {Boolean} additive - If is additive to actual position
    */
   move(pos_x, pos_y, additive = false){
     this.pos = additive? {'x':this.pos.x + pos_x, 'y':this.pos.y + pos_y}:{'x':pos_x, 'y':pos_y};
@@ -100,7 +100,7 @@ class DrawObject {
 
 /** Object with image properties to be right clipped on canvas
  * 
- * All method names initializing with _ are for internal use of the class only
+ * All method/attribute names initializing with _ are for internal use of the class only
  */
 class RenderObject {
   constructor(img, size_x, size_y){
