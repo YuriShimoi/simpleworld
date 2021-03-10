@@ -1,9 +1,22 @@
 .JSMapEngine-GridMapper-canvas {
   background: #111118;
-  border: 1px solid red;
+  border: 1px solid white;
+  padding: 1px;
   position: absolute;
   top: 10px;
   left: 10px;
-  width: 500px;
-  height: 500px;
+  width: 150px;
+  height: 150px;
+
+  min-width: 150px;
+  min-height: 150px;
+  max-width: 500px;
+  max-height: 500px;
+
+  resize: horizontal;
+  overflow: hidden;
+}
+
+.JSMapEngine-GridMapper-canvas > canvas {
+  width: 100%;
 }

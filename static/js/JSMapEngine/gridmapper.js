@@ -20,6 +20,7 @@ class GridMapper {
   /** Set map as the given one
    * 
    * @param {Array} map 
+   * @param {Boolean} resize - If this map needs to be resized to given map
    * @returns Treated map
    */
   setMap(map, resize=false){
@@ -89,19 +90,34 @@ class GridMapper {
    */
   static normalize(map, fixed=2){
     let max = Math.max();
+    let min = Math.min();
     map.forEach(x => max = max < Math.max(...x)? Math.max(...x):max);
-    map = map.map(x => x.map(y => parseFloat((y / max).toFixed(fixed))));
+    map.forEach(x => min = min > Math.min(...x)? Math.min(...x):min);
+
+    map = map.map(x => x.map(y => y + (0 - min)) // push min value to 0
+                        .map(y => parseFloat((y / (max + (0 - min))) // normalize by max value
+                            .toFixed(fixed)) // fix decimal cases
+                        )
+                  );
     return map;
   }
 
 
   _loadCanvas(){
-    let html = `<canvas class="${this._print_class} canvas-pixelated" width="${this.size.x}" height="${this.size.y}"></canvas>`;
+    let html = `<div class="${this._print_class}"><canvas class="canvas-pixelated" width="${this.size.x}" height="${this.size.y}"></canvas><div>`;
     $("body").append(html);
 
-    this._canvas  = $(`.${this._print_class}`)[0];
+    this._canvas  = $(`.${this._print_class} > canvas`)[0];
     this._context = this._canvas.getContext("2d");
     this._context.imageSmoothingEnabled = false;
+
+    if(this._canvas_interval == null){
+      this._canvas_interval = setInterval(function(canvas){
+        let wid = $(canvas).css("width");
+        let hei = $(canvas).css("height");
+        if(wid != hei) $(canvas).css("height", wid);
+      }, 10, $(`.${this._print_class}`));
+    }
   }
 
   _clip(){
