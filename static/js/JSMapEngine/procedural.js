@@ -40,7 +40,7 @@ class GridProcedure {
 
   static _perlin(size){
     try{
-      let map = GridProcedure._cleanMap(size);
+      perlin.seed();
       // Perlin Noise - https://joeiddon.github.io/projects/javascript/perlin
       let frequency = GridProcedure.prop.perlin.frequency;
       return GridProcedure._fill_map((x,y) => perlin.get((x/((size.x-1)/frequency*2))-frequency,
@@ -102,6 +102,15 @@ class GridProcedure {
     for(let s=0; s < GridProcedure.prop.cellular.smooth; s++){
       map = GridProcedure._cellular_smooth(map);
     }
+
+    return map;
+  }
+
+  static drunken(size){
+    let map = GridProcedure._cleanMap(size);
+    // Drunken Walk - https://www.reddit.com/r/roguelikedev/comments/hhzszb/using_a_modified_drunkards_walk_to_generate_cave/
+    //              - http://davideyork.com/drunken-walk-procedural-algorithm/
+    
 
     return map;
   }
