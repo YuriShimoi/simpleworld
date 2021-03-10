@@ -15,6 +15,7 @@ class GridProcedure {
       'variants'     : [1, 0.7, 0.3],
       'initial_drop' : 0.04,
       'dissemination': 3,
+      'smooth'       : 3,
       'random_check' : 1 // if 0 is linear, else is random pick in percentual P (0 < P ≤ 1) amount
     }
   }
@@ -85,7 +86,7 @@ class GridProcedure {
         }
         else{
           for(let x in map){
-            for(let y in map){
+            for(let y in map[x]){
               x = parseInt(x);
               y = parseInt(y);
   
@@ -97,6 +98,9 @@ class GridProcedure {
           }
         }
       }
+    }
+    for(let s=0; s < GridProcedure.prop.cellular.smooth; s++){
+      map = GridProcedure._cellular_smooth(map);
     }
 
     return map;
@@ -142,5 +146,44 @@ class GridProcedure {
     }
 
     return occur <= 9-dissm && var_qnt >= dissm;
+  }
+
+  static _cellular_smooth(map){
+    for(let x in map){
+      for(let y in map[x]){
+        x = parseInt(x);
+        y = parseInt(y);
+        let freq      = GridProcedure._cellular_area_frequency(map, {'x':x, 'y':y});
+        let most      = '';
+        let freq_most = 0;
+        for(let f in freq){
+          if(freq[f] > freq_most) {
+            most = f;
+            freq_most = freq[f];
+          }
+        }
+        map[x][y] = most;
+      }
+    }
+
+    return map;
+  }
+
+  static _cellular_area_frequency(map, pos){
+    let types = [...GridProcedure.prop.cellular.variants, ...[GridProcedure.prop.cellular.basis]];
+    let freq  = {};
+    types.forEach(t => freq[t] = 0);
+
+    for(let x = pos.x-1; x <= pos.x+1; x++){
+      if(x >= 0 && x < map.length){
+        for(let y = pos.y-1; y <= pos.y+1; y++){
+          if(y >= 0 && y < map[x].length){
+            freq[map[x][y]]++;
+          }
+        }
+      }
+    }
+
+    return freq;
   }
 }
