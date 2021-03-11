@@ -10,9 +10,10 @@ class GridMapper {
 
   _map = null;
 
-  constructor(size_x, size_y, empty=""){
-    this.empty = empty;
-    this.size  = {'x':size_x, 'y':size_y};
+  constructor(size_x, size_y, empty="", container="body"){
+    this.empty     = empty;
+    this.size      = {'x':size_x, 'y':size_y};
+    this.container = container;
     this.clearMap();
   }
 
@@ -105,7 +106,7 @@ class GridMapper {
 
   _loadCanvas(){
     let html = `<div class="${this._print_class}"><canvas class="canvas-pixelated" width="${this.size.x}" height="${this.size.y}"></canvas><div>`;
-    $("body").append(html);
+    $(this.container).append(html);
 
     this._canvas  = $(`.${this._print_class} > canvas`)[0];
     this._context = this._canvas.getContext("2d");

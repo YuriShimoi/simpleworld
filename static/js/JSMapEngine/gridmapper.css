@@ -20,3 +20,8 @@
 .JSMapEngine-GridMapper-canvas > canvas {
   width: 100%;
 }
+
+
+.JSMapEngine-GridMapper-canvas::-webkit-resizer {
+  background: linear-gradient(135deg, transparent 60%, white 60%);
+}
