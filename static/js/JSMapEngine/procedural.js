@@ -19,12 +19,14 @@ class GridProcedure {
       'random_check' : 1 // if 0 is linear, else is random pick in percentual P (0 < P ≤ 1) amount
     },
     'drunken': {
-      'basis'    : 0,
-      'carver'   : 1,
-      'smooth'   : 5,
-      'paths'    : 6,
-      'lenght'   : 0.3,
-      'border'   : 1
+      'basis'   : 0,
+      'carver'  : 1,
+      'smooth'  : 7,
+      'paths'   : 10,
+      'lenght'  : 0.25,
+      'border'  : 1,
+      'filler'  : 0.4, // if greater than 0 is a map fill percentage
+      'additive': false // if true basis is 0 and walked is 1 or greater
     }
   }
   
@@ -122,18 +124,26 @@ class GridProcedure {
   static _drunken(size){
     // Drunken Walk - https://www.reddit.com/r/roguelikedev/comments/hhzszb/using_a_modified_drunkards_walk_to_generate_cave/
     //              - http://davideyork.com/drunken-walk-procedural-algorithm/
-    let basis  = GridProcedure.prop.drunken.basis;
+    let additv = GridProcedure.prop.drunken.additive;
+    let basis  = additv? 0: GridProcedure.prop.drunken.basis;
     let map    = GridProcedure._cleanMap(size, basis);
 
+    let paths  = GridProcedure.prop.drunken.paths;
     let carver = GridProcedure.prop.drunken.carver;
     let border = GridProcedure.prop.drunken.border;
     let lenght = GridProcedure.prop.drunken.lenght * size.x * size.y;
+    let filler = GridProcedure.prop.drunken.filler;
+    if(filler){
+      filler = filler * size.x * size.y;
+      paths  = 1;
+    }
 
-    let pos  = [parseInt(size.x/2), parseInt(size.y/2)];
-    let move = [[1,0], [-1,0], [0,1], [0,-1]];
+    let pos    = [parseInt(size.x/2), parseInt(size.y/2)];
+    let move   = [[1,0], [-1,0], [0,1], [0,-1]];
+    let filled = 0;
 
     map[pos[0]][pos[1]] = carver;
-    for(let p=0; p < GridProcedure.prop.drunken.paths; p++){
+    for(let p=0; p < paths; p++){
       for(let l=0; l < lenght; l++){
         let to = Math.floor(Math.random() * 4);
         pos[0] += move[to][0];
@@ -145,7 +155,17 @@ class GridProcedure {
           continue;
         }
 
-        map[pos[0]][pos[1]] = carver;
+        if(additv){
+          if(filler && map[pos[0]][pos[1]] == 0) filled++;
+          map[pos[0]][pos[1]] += map[pos[0]][pos[1]] == 0? 1: 0.1;
+        }
+        else{
+          if(filler && map[pos[0]][pos[1]] == basis) filled++;
+          map[pos[0]][pos[1]] = carver;
+        }
+      }
+      if(filler && filled < filler){
+        p--;
       }
     }
 
