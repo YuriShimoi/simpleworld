@@ -23,9 +23,9 @@ class GridProcedure {
       'carver'  : 1,
       'smooth'  : 7,
       'paths'   : 10,
-      'lenght'  : 0.25,
+      'lenght'  : 0.15,
       'border'  : 1,
-      'filler'  : 0.4, // if greater than 0 is a map fill percentage
+      'filler'  : 0.5, // if greater than 0 is a map fill percentage
       'additive': false // if true basis is 0 and walked is 1 or greater
     }
   }
