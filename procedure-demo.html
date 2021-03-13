@@ -21,7 +21,7 @@
           <b>Size: </b><label for="perlin-size">200</label><span class="note"> - Grid X and Y size</span><br>
           <input id="perlin-size" type="range" min="100" max="1000" value="200" step="10">
           <br>
-          <b>Frequency: </b><label for="perlin-frequency">5</label><span class="note"> - </span><br>
+          <b>Frequency: </b><label for="perlin-frequency">5</label><span class="note"> - Frequency of waves</span><br>
           <input id="perlin-frequency" type="range" min="1" max="50" value="5" step="1">
           <br><br>
           <button class="gen-map">generate map</button>
@@ -32,24 +32,24 @@
           <b>Size: </b><label for="cellular-size">200</label><span class="note"> - Grid X and Y size</span><br>
           <input id="cellular-size" type="range" min="100" max="1000" value="200" step="10">
           <br>
-          <b>Iterations: </b><label for="cellular-iterations">50</label><span class="note"> - </span><br>
+          <b>Iterations: </b><label for="cellular-iterations">50</label><span class="note"> - Dissemination times</span><br>
           <input id="cellular-iterations" type="range" min="1" max="200" value="50" step="1">
           <br>
-          <b>Initial drop: </b><label for="cellular-drop">4</label>%<span class="note"> - </span><br>
+          <b>Initial drop: </b><label for="cellular-drop">4</label>%<span class="note"> - Random drop amount on start</span><br>
           <input id="cellular-drop" type="range" min="1" max="99" value="4" step="1">
           <br>
           <hr><br>
-          Basis: <span class="note"> - </span><br>
+          Basis: <span class="note"> - Basis (initial base value)</span><br>
           <input id="cellular-basis" type="number" min="0" max="999999" value="0" step="1">
           <br>
-          Variants: <span class="note"> - </span><br>
+          Variants: <span class="note"> - Cellular variants (splited by comma, without spaces)</span><br>
           <input id="cellular-variants" type="text" value="1,0.7,0.3">
           <br>
           <hr><br>
-          <b>Dissemination: </b><label for="cellular-dissemination">3</label><span class="note"> - </span><br>
+          <b>Dissemination: </b><label for="cellular-dissemination">3</label><span class="note"> - Minimum neighbor tile amount to disseminate</span><br>
           <input id="cellular-dissemination" type="range" min="1" max="8" value="3" step="1">
           <br>
-          <b>Smooth: </b><label for="cellular-smooth">3</label><span class="note"> - </span><br>
+          <b>Smooth: </b><label for="cellular-smooth">3</label><span class="note"> - Smooth times</span><br>
           <input id="cellular-smooth" type="range" min="0" max="20" value="3" step="1">
           <br>
           <b>Random check: </b><label for="cellular-check">100</label>%<span class="note"> - If 0 is linear check, else is a random pick </span><br>
@@ -63,24 +63,24 @@
           <b>Size: </b><label for="drunken-size">200</label><span class="note"> - Grid X and Y size</span><br>
           <input id="drunken-size" type="range" min="100" max="1000" value="200" step="10">
           <br>
-          <b>Paths: </b><label for="drunken-paths">10</label><span class="note"> - </span><br>
+          <b>Paths: </b><label for="drunken-paths">10</label><span class="note"> - Starting paths</span><br>
           <input id="drunken-paths" type="range" min="1" max="50" value="10" step="1">
           <br>
-          <b>Length: </b><label for="drunken-length">15</label>%<span class="note"> - </span><br>
+          <b>Length: </b><label for="drunken-length">15</label>%<span class="note"> - Lenght of each path</span><br>
           <input id="drunken-length" type="range" min="1" max="100" value="15" step="1">
           <br>
           <hr><br>
-          Carver: <span class="note"> - </span><br>
+          Carver: <span class="note"> - Carver value (path tiles)</span><br>
           <input id="drunken-carver" type="number" min="0" max="999999" value="1" step="1">
           <br>
-          Basis: <span class="note"> - </span><br>
+          Basis: <span class="note"> - Basis value (walls)</span><br>
           <input id="drunken-basis" type="number" min="0" max="999999" value="0" step="1">
           <br>
           <hr><br>
-          <b>Smooth: </b><label for="drunken-smooth">7</label><span class="note"> - </span><br>
+          <b>Smooth: </b><label for="drunken-smooth">7</label><span class="note"> - Smooth times</span><br>
           <input id="drunken-smooth" type="range" min="0" max="20" value="7" step="1">
           <br>
-          <b>Border: </b><label for="drunken-border">1</label><span class="note"> - </span><br>
+          <b>Border: </b><label for="drunken-border">1</label><span class="note"> - Bordering size</span><br>
           <input id="drunken-border" type="range" min="0" max="50" value="1" step="1">
           <br>
           <hr><br>
