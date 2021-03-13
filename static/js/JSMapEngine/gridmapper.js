@@ -105,10 +105,10 @@ class GridMapper {
 
 
   _loadCanvas(){
-    let html = `<div class="${this._print_class}"><canvas class="canvas-pixelated" width="${this.size.x}" height="${this.size.y}"></canvas><div>`;
+    let html = `<div class="${this._print_class}"><canvas class="canvas-pixelated" width="${this.size.x}" height="${this.size.y}"></canvas></div>`;
     $(this.container).append(html);
 
-    this._canvas  = $(`.${this._print_class} > canvas`)[0];
+    this._canvas  = $(this.container).find(`.${this._print_class} > canvas`)[0];
     this._context = this._canvas.getContext("2d");
     this._context.imageSmoothingEnabled = false;
 

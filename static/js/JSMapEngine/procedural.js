@@ -23,7 +23,7 @@ class GridProcedure {
       'carver'  : 1,
       'smooth'  : 7,
       'paths'   : 10,
-      'lenght'  : 0.15,
+      'length'  : 0.15,
       'border'  : 1,
       'filler'  : 0.5, // if greater than 0 is a map fill percentage
       'additive': false // if true basis is 0 and walked is 1 or greater
@@ -131,7 +131,7 @@ class GridProcedure {
     let paths  = GridProcedure.prop.drunken.paths;
     let carver = GridProcedure.prop.drunken.carver;
     let border = GridProcedure.prop.drunken.border;
-    let lenght = GridProcedure.prop.drunken.lenght * size.x * size.y;
+    let length = GridProcedure.prop.drunken.length * size.x * size.y;
     let filler = GridProcedure.prop.drunken.filler;
     if(filler){
       filler = filler * size.x * size.y;
@@ -144,7 +144,7 @@ class GridProcedure {
 
     map[pos[0]][pos[1]] = carver;
     for(let p=0; p < paths; p++){
-      for(let l=0; l < lenght; l++){
+      for(let l=0; l < length; l++){
         let to = Math.floor(Math.random() * 4);
         pos[0] += move[to][0];
         pos[1] += move[to][1];

@@ -1,0 +1,177 @@
+:root {
+  --my-blue: #255ed8;
+  --background: #222222;
+  --gray: #555555;
+  --light: #999999;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+
+  background: var(--background);
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+}
+
+div#content {
+  padding: 10px 30px;
+  color: #eeeeee;
+}
+
+h1, h2 {
+  text-decoration: underline var(--my-blue);
+  font-weight: 600;
+}
+
+p {
+  font-size: larger;
+}
+
+hr {
+  width: 100%;
+  max-width: 410px;
+  display: inline-block;
+  border-color: var(--light);
+}
+
+.nav {
+  border-bottom: 1px solid white;
+  font-size: larger;
+}
+.nav > .nav-link {
+  cursor: pointer;
+  padding: 2px 10px 6px 10px;
+  display: inline-block;
+  color: var(--my-blue);
+  border: 1px solid var(--my-blue);
+  border-right-color: var(--background);
+  border-bottom: none;
+  border-radius: 3px 0 0 0;
+}
+.nav > .nav-link.active {
+  border: 1px solid white;
+  border-bottom-color: var(--background);
+  color: white;
+  margin-bottom: -1px;
+  border-radius: 3px 3px 0 0;
+}
+.nav > .nav-link.active ~ .nav-link {
+  border-left-color: var(--background);
+  border-right-color: var(--my-blue);
+  border-radius: 0 3px 0 0;
+}
+
+.tab-content {
+  border: 1px solid white;
+  border-top: none;
+  border-radius: 0 0 3px 3px;
+  overflow: hidden;
+  padding: 10px;
+}
+.tab-content > .tab-pane {
+  display: none;
+}
+.tab-content > .tab-pane.active {
+  display: block;
+}
+
+.map-space {
+  display: none;
+}
+.map-space.active {
+  display: block;
+}
+
+input[type="range"],input[type="text"], input[type="number"] {
+  -webkit-appearance: none;
+  width: 100%;
+  max-width: 400px;
+  outline: none;
+}
+
+input[type="range"] {
+  background: var(--gray);
+  height: 8px;
+  border-radius: 5px;
+  border-left: 4px solid white;
+  border-right: 4px solid white;
+}
+input[type="range"]:hover {
+  background: var(--light);
+}
+input[type="range"]:hover::-webkit-slider-thumb {
+  background: var(--my-blue);
+  transition: linear 100ms background-color;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background: var(--gray);
+  border-radius: 100%;
+  height: 20px;
+  width: 20px;
+  border: 3px solid var(--background);
+}
+
+input[type="text"], input[type="number"] {
+  border: 4px solid var(--gray);
+  border-bottom: none;
+  padding-bottom: 3px;
+  background: var(--gray);
+  color: white;
+}
+input[type="text"]:focus, input[type="number"]:focus {
+  background: var(--light);
+  border-color: var(--light);
+}
+
+label {
+  font-weight: 600;
+}
+
+span.note {
+  color: var(--light);
+}
+
+.left-tab {
+  float: left;
+  width: 50%;
+}
+.right-tab {
+  float: right;
+  top: 0;
+  border: 1px solid white;
+  width: calc(50% - 2px);
+}
+
+button.gen-map {
+  background: var(--my-blue);
+  color: white;
+  border: 1px solid var(--my-blue);
+  padding: 8px 15px;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  width: 200px;
+}
+button.gen-map:hover {
+  border: 1px solid white;
+}
+
+@media only screen and (max-width: 930px) {
+  .left-tab {
+    float: left;
+    width: 100%;
+    margin-bottom: 30px;
+  }
+  .right-tab {
+    float: right;
+    width: 100%;
+  }
+
+  input[type="range"],input[type="text"], input[type="number"] {
+    max-width: calc(100% - 12px);
+  }
+  hr {
+    max-width: calc(100% - 2px);
+  }
+}

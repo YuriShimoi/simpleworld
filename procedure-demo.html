@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <title>Procedure Demo</title>
+
+    <!-- CSS IMPORTS -->
+    <link rel="stylesheet" href="static/css/style-demo.css">
+  </head>
+  <body>
+    <div id="content">
+      <h2>Procedure module demo generator</h2>
+      <p>This page is for testing purpoise, feel free to mess with the parameters. =)</p>
+      <nav class="nav">
+        <a class="nav-link active" target="perlin">Perlin Noise</a>
+        <a class="nav-link"        target="cellular">Cellular Automata</a>
+        <a class="nav-link"        target="drunken">Drunken Walk</a>
+      </nav>
+      <div class="tab-content">
+        <div class="tab-pane left-tab active" tab-id="perlin">
+          <b>Size: </b><label for="perlin-size">200</label><span class="note"> - Grid X and Y size</span><br>
+          <input id="perlin-size" type="range" min="100" max="1000" value="200" step="10">
+          <br>
+          <b>Frequency: </b><label for="perlin-frequency">5</label><span class="note"> - </span><br>
+          <input id="perlin-frequency" type="range" min="1" max="50" value="5" step="1">
+          <br><br>
+          <button class="gen-map">generate map</button>
+          <span class="exec-time"></span>
+        </div>
+        <div class="right-tab map-space active" id="perlin-map"></div>
+        <div class="tab-pane left-tab" tab-id="cellular">
+          <b>Size: </b><label for="cellular-size">200</label><span class="note"> - Grid X and Y size</span><br>
+          <input id="cellular-size" type="range" min="100" max="1000" value="200" step="10">
+          <br>
+          <b>Iterations: </b><label for="cellular-iterations">50</label><span class="note"> - </span><br>
+          <input id="cellular-iterations" type="range" min="1" max="200" value="50" step="1">
+          <br>
+          <b>Initial drop: </b><label for="cellular-drop">4</label>%<span class="note"> - </span><br>
+          <input id="cellular-drop" type="range" min="1" max="99" value="4" step="1">
+          <br>
+          <hr><br>
+          Basis: <span class="note"> - </span><br>
+          <input id="cellular-basis" type="number" min="0" max="999999" value="0" step="1">
+          <br>
+          Variants: <span class="note"> - </span><br>
+          <input id="cellular-variants" type="text" value="1,0.7,0.3">
+          <br>
+          <hr><br>
+          <b>Dissemination: </b><label for="cellular-dissemination">3</label><span class="note"> - </span><br>
+          <input id="cellular-dissemination" type="range" min="1" max="8" value="3" step="1">
+          <br>
+          <b>Smooth: </b><label for="cellular-smooth">3</label><span class="note"> - </span><br>
+          <input id="cellular-smooth" type="range" min="0" max="20" value="3" step="1">
+          <br>
+          <b>Random check: </b><label for="cellular-check">100</label>%<span class="note"> - If 0 is linear check, else is a random pick </span><br>
+          <input id="cellular-check" type="range" min="0" max="100" value="100" step="1">
+          <br><br>
+          <button class="gen-map">generate map</button>
+          <span class="exec-time"></span>
+        </div>
+        <div class="right-tab map-space" id="cellular-map"></div>
+        <div class="tab-pane left-tab" tab-id="drunken">
+          <b>Size: </b><label for="drunken-size">200</label><span class="note"> - Grid X and Y size</span><br>
+          <input id="drunken-size" type="range" min="100" max="1000" value="200" step="10">
+          <br>
+          <b>Paths: </b><label for="drunken-paths">10</label><span class="note"> - </span><br>
+          <input id="drunken-paths" type="range" min="1" max="50" value="10" step="1">
+          <br>
+          <b>Length: </b><label for="drunken-length">15</label>%<span class="note"> - </span><br>
+          <input id="drunken-length" type="range" min="1" max="100" value="15" step="1">
+          <br>
+          <hr><br>
+          Carver: <span class="note"> - </span><br>
+          <input id="drunken-carver" type="number" min="0" max="999999" value="1" step="1">
+          <br>
+          Basis: <span class="note"> - </span><br>
+          <input id="drunken-basis" type="number" min="0" max="999999" value="0" step="1">
+          <br>
+          <hr><br>
+          <b>Smooth: </b><label for="drunken-smooth">7</label><span class="note"> - </span><br>
+          <input id="drunken-smooth" type="range" min="0" max="20" value="7" step="1">
+          <br>
+          <b>Border: </b><label for="drunken-border">1</label><span class="note"> - </span><br>
+          <input id="drunken-border" type="range" min="0" max="50" value="1" step="1">
+          <br>
+          <hr><br>
+          <b>Filler: </b><label for="drunken-filler">50.0</label>%<span class="note"> - If greater than 0 is a map fill percentage</span><br>
+          <input id="drunken-filler" type="range" min="0" max="100" value="50" step="0.5">
+          <br>
+          <b>Additive: </b><span class="note"> - If checked basis is 0 and walked is 1 or greater</span><br>
+          <input id="drunken-additive" type="checkbox">
+          <br><br>
+          <button class="gen-map">generate map</button>
+          <span class="exec-time"></span>
+        </div>
+        <div class="right-tab map-space" id="drunken-map"></div>
+      </div>
+    </div>
+
+    <!-- JS IMPORTS -->
+    <script src="static/import/jquery-3.6.0.min.js"></script>
+    <script src='https://joeiddon.github.io/perlin/perlin.js'></script>
+    <script src="static/js/JSMapEngine/main.js"></script>
+    <script src="static/js/main-demo.js"></script>
+  </body>
+</html>
