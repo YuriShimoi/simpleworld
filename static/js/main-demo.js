@@ -1,4 +1,4 @@
-/** online demo: https://yurishimoi.github.io/simpleworld/ */
+/** online demo: https://yurishimoi.github.io/simpleworld/procedure-demo.html */
 
 // VARIABLES
 let engine = new Engine();
@@ -8,11 +8,9 @@ Engine.import("procedural.js");
 
 
 // FUNCTIONS
-function doMap(type, map){
+function doMap(type, map, need_print=true){
   let pane = $(`.tab-pane[tab-id="${type}"]`);
   let size = parseInt(pane.find(`#${type}-size`).val());
-  
-  let mapping = new GridMapper(size, size, "", map);
   
   let inputs = pane.find("input");
   for(let i=0; i < inputs.length; i++){
@@ -92,8 +90,12 @@ function doMap(type, map){
   }
 
   let grid = GridProcedure.generate(type, {'x':size,'y':size});
-  mapping.setMap(grid);
-  mapping.print(1);
+  if(need_print){
+    let mapping = new GridMapper(size, size, "", map);
+    mapping.setMap(grid);
+    mapping.print(1);
+  }
+  return grid;
 }
 
 
@@ -124,7 +126,44 @@ $(".gen-map").click(function(){
   map.html("");
 
   let init = new Date();
-  doMap(type, map);
+  if(type.includes('-')){
+    let grids = {};
+    for(let t in type.split('-')){
+      let t_type    = type.split('-')[t];
+      grids[t_type] = doMap(t_type, map, false);
+    }
+
+    let grid = [];
+    let minimum = Math.min();
+    if('perlin' in grids){
+      grid = GridMapper.normalize(grids['perlin']);
+      if('cellular' in grids){
+        grid = grid.map((_, x) => grid[x].map((v, y) => parseFloat(v) + parseFloat(grids['cellular'][x][y])));
+      }
+      else minimum = -0.05;
+    }
+    else {
+      grid = grids['cellular'];
+    }
+    if('drunken' in grids){
+      for(let x=0; x < grid.length; x++){
+        for(let y=0; y < grid[x].length; y++){
+          if(grids['drunken'][x][y] === GridProcedure.prop.drunken.basis){
+            grid[x][y] = '#';
+          }
+          else if(parseFloat(grid[x][y]) < minimum) minimum = parseFloat(grid[x][y]);
+        }
+      }
+      grid = grid.map(x => x.map(y => y === '#'? minimum-Math.abs(minimum/2): y));
+    }
+    let size = grid.length;
+    let mapping = new GridMapper(size, size, "", map);
+    mapping.setMap(grid);
+    mapping.print(1);
+  }
+  else {
+    doMap(type, map);
+  }
   let end  = new Date();
 
   $(this).parent().find("span.exec-time").html(`Generation time: ${(end-init)/1000}s`);
