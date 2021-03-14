@@ -15,6 +15,7 @@ class GridMapper {
     this.size      = {'x':size_x, 'y':size_y};
     this.container = container;
     this.clearMap();
+    this.mapping = {};
   }
 
 
@@ -69,14 +70,29 @@ class GridMapper {
     for(let x in this._map){
       for(let y in map[x]){
         if(map[x][y] === this.empty || map[x][y] == undefined) continue;
-        let value = parseFloat(map[x][y]);
         let index = (parseInt(x) + parseInt(y) * this._canvas.width) * 4;
-        let color = value < 0? 0: value > 1? 255: 255 * value;
+        
+        let color_red   = null;
+        let color_blue  = null;
+        let color_green = null;
+        if(typeof map[x][y] == "object"){
+          color_red   = map[x][y][0];
+          color_green = map[x][y][1];
+          color_blue  = map[x][y][2];
+        }
+        else {
+          let value = parseFloat(map[x][y]);
+          let color = value < 0? 0: value > 1? 255: 255 * value;
 
-        render_map.data[index + 0] = color; // red
-        render_map.data[index + 1] = color; // green
-        render_map.data[index + 2] = color; // blue
-        render_map.data[index + 3] = 255;   // alpha
+          color_red   = color;
+          color_green = color;
+          color_blue  = color;
+        }
+
+        render_map.data[index + 0] = color_red;   // red
+        render_map.data[index + 1] = color_green; // green
+        render_map.data[index + 2] = color_blue;  // blue
+        render_map.data[index + 3] = 255;         // alpha
       }
     }
 
@@ -101,6 +117,11 @@ class GridMapper {
                         )
                   );
     return map;
+  }
+
+  colorMappping(){
+    this._map = this._map.map(x => x.map(y => y in this.mapping? this.mapping[String(y)]: y));
+    return this._map;
   }
 
 
