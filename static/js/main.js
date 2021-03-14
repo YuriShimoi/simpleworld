@@ -36,11 +36,13 @@ $(window).ready(function(){
 
   mapper.setMap(grid);
 
-  mapper.mapping['1']   = [ 80, 190, 255];
-  mapper.mapping['0.2'] = [100, 255, 120];
-  mapper.mapping['0.4'] = [ 20, 100,  50];
-  mapper.mapping['0.6'] = [ 80, 200, 110];
-  mapper.mapping['0.8'] = [ 50, 180,  80];
-  mapper.colorMappping();
+  mapper.mapping = {
+    '0'  : "",
+    '1'  : [ 80, 190, 255],
+    '0.2': [100, 255, 120],
+    '0.4': [ 20, 100,  50],
+    '0.6': [ 80, 200, 110],
+    '0.8': [ 50, 180,  80]
+  }
   mapper.print();
 });

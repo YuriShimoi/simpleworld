@@ -75,10 +75,10 @@ class GridMapper {
         let color_red   = null;
         let color_blue  = null;
         let color_green = null;
-        if(typeof map[x][y] == "object"){
-          color_red   = map[x][y][0];
-          color_green = map[x][y][1];
-          color_blue  = map[x][y][2];
+        if(map[x][y] in this.mapping){
+          color_red   = this.mapping[map[x][y]][0];
+          color_green = this.mapping[map[x][y]][1];
+          color_blue  = this.mapping[map[x][y]][2];
         }
         else {
           let value = parseFloat(map[x][y]);
@@ -117,11 +117,6 @@ class GridMapper {
                         )
                   );
     return map;
-  }
-
-  colorMappping(){
-    this._map = this._map.map(x => x.map(y => y in this.mapping? this.mapping[String(y)]: y));
-    return this._map;
   }
 
 
