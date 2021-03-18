@@ -72,6 +72,21 @@ class Display {
       draw_obj.render.size.y
     );
   }
+
+  /**
+   * 
+   * @param {Array} objs - List of DrawObjects
+   */
+  drawMany(objs){
+    
+  }
+
+  /**
+   * 
+   */
+  clear(){
+    this._context.clearRect(0, 0, this._properties.width, this._properties.height);
+  }
 }
 
 
@@ -108,6 +123,8 @@ class RenderObject {
     this.img.ref = this;
     this.img.onload = function(){
       this.ref.clip(0, 0, this.width, this.height);
+      this.ref._doOnLoad();
+
       delete this.ref;
     }
     this.img.src = img;
@@ -125,5 +142,18 @@ class RenderObject {
   clip(start_x, start_y, size_x, size_y){
     this.img.size  = {'x':size_x,  'y':size_y};
     this.img.start = {'x':start_x, 'y':start_y};
+  }
+
+  /** Execute when image loads
+   * 
+   * @param {Function} func 
+   */
+  onLoad(func){
+    this.onLoadFunc = func;
+  }
+
+
+  _doOnLoad(){
+    return this.onLoadFunc(this);
   }
 }

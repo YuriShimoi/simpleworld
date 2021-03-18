@@ -15,7 +15,7 @@ class GridMapper {
     this.size      = {'x':size_x, 'y':size_y};
     this.container = container;
     this.clearMap();
-    this.mapping = {};
+    this.color_mapping = {};
   }
 
 
@@ -75,10 +75,11 @@ class GridMapper {
         let color_red   = null;
         let color_blue  = null;
         let color_green = null;
-        if(map[x][y] in this.mapping){
-          color_red   = this.mapping[map[x][y]][0];
-          color_green = this.mapping[map[x][y]][1];
-          color_blue  = this.mapping[map[x][y]][2];
+        if(map[x][y] in this.color_mapping){
+          if(this.color_mapping[map[x][y]] === this.empty) continue;
+          color_red   = this.color_mapping[map[x][y]][0];
+          color_green = this.color_mapping[map[x][y]][1];
+          color_blue  = this.color_mapping[map[x][y]][2];
         }
         else {
           let value = parseFloat(map[x][y]);
@@ -97,6 +98,8 @@ class GridMapper {
     }
 
     this._context.putImageData(render_map, 0, 0);
+
+    return this._canvas.toDataURL("image/png");
   }
 
   /** Normalize map on 0 to 1
