@@ -3,6 +3,8 @@
  * All method/attribute names initializing with _ are for internal use of the class only
  */
 class Display {
+  static _counter = 0;
+
   _container    = null;
   _canvas       = null;
   _context      = null;
@@ -39,11 +41,11 @@ class Display {
       properties += `${p}="${prop[p]}" `;
     }
 
-    let canvas = `<canvas ${properties}></canvas>`;
+    let canvas = `<canvas id="${this._canvas_class}-${Display._counter}" ${properties}></canvas>`;
 
     if(this._canvas) this._canvas.remove();
     $(this._container).append(canvas);
-    this._canvas = $(this._container).find(`.${this._canvas_class}`)[0];
+    this._canvas = $(this._container).find(`#${this._canvas_class}-${Display._counter++}`)[0];
 
     this._context = this._canvas.getContext("2d");
     this._context.imageSmoothingEnabled = !pixelated;
