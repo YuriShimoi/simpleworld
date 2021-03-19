@@ -125,7 +125,10 @@ class RenderObject {
     this.img.ref = this;
     this.img.onload = function(){
       this.ref.clip(0, 0, this.width, this.height);
-      this.ref._doOnLoad();
+      if(this.width != this.ref.size.x || this.height != this.ref.size.y){
+        this.ref.resize(this.ref.size.x, this.ref.size.y);
+      }
+      else this.ref._doOnLoad();
 
       delete this.ref;
     }
@@ -144,6 +147,33 @@ class RenderObject {
   clip(start_x, start_y, size_x, size_y){
     this.img.size  = {'x':size_x,  'y':size_y};
     this.img.start = {'x':start_x, 'y':start_y};
+  }
+
+  /** Resize this.img to given measures, this will also trigger onLoad
+   * 
+   * @param {Number} width 
+   * @param {Number} height 
+   */
+  resize(width, height){
+    let canvas  = document.createElement('canvas');
+    let context = canvas.getContext('2d');
+
+    canvas.width  = width;
+    canvas.height = height;
+
+    context.imageSmoothingEnabled = false;
+    context.drawImage(this.img, 0, 0, width, height);
+
+    this.img     = new Image;
+    this.img.ref = this;
+    this.img.onload = function(){
+      this.ref.clip(0, 0, this.width, this.height);
+      this.ref._doOnLoad();
+      
+      delete this.ref;
+    }
+
+    this.img.src = canvas.toDataURL();
   }
 
   /** Execute when image loads
