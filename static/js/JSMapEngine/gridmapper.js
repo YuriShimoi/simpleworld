@@ -130,14 +130,6 @@ class GridMapper {
     this._canvas  = $(this.container).find(`.${this._print_class} > canvas`)[0];
     this._context = this._canvas.getContext("2d");
     this._context.imageSmoothingEnabled = false;
-
-    if(this._canvas_interval == null){
-      this._canvas_interval = setInterval(function(canvas){
-        let wid = $(canvas).css("width");
-        let hei = $(canvas).css("height");
-        if(wid != hei) $(canvas).css("height", wid);
-      }, 10, $(`.${this._print_class}`));
-    }
   }
 
   _clip(){

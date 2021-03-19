@@ -1,5 +1,6 @@
 .JSMapEngine-GridMapper-canvas {
   width: 100%;
+  margin-bottom: -4px;
 }
 
 .JSMapEngine-GridMapper-canvas > canvas {
