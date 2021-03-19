@@ -55,35 +55,31 @@ class Display {
 
   /** Draw the DrawObject on context
    * 
-   * @param {DrawObject} draw_obj 
+   * @param {DrawObject | [DrawObject]} draw_obj 
    * @returns If has no canvas or context set, will return false
    */
   draw(draw_obj){
     if(!this._canvas || !this._context) return false;
 
-    // drawimage > (image, clip_start_x, clip_start_y, clip_size_x, clip_size_y, canvas_x, canvas_y, size_x, size_y)
-    this._context.drawImage(
-      draw_obj.render.img,
-      draw_obj.render.img.start.x,
-      draw_obj.render.img.start.y,
-      draw_obj.render.img.size.x,
-      draw_obj.render.img.size.y,
-      draw_obj.pos.x,
-      draw_obj.pos.y,
-      draw_obj.render.size.x,
-      draw_obj.render.size.y
-    );
+    if(draw_obj instanceof DrawObject) draw_obj = [draw_obj];
+
+    for(let d in draw_obj){
+      // drawimage > (image, clip_start_x, clip_start_y, clip_size_x, clip_size_y, canvas_x, canvas_y, size_x, size_y)
+      this._context.drawImage(
+        draw_obj[d].render.img,
+        draw_obj[d].render.img.start.x,
+        draw_obj[d].render.img.start.y,
+        draw_obj[d].render.img.size.x,
+        draw_obj[d].render.img.size.y,
+        draw_obj[d].pos.x,
+        draw_obj[d].pos.y,
+        draw_obj[d].render.size.x,
+        draw_obj[d].render.size.y
+      );
+    }
   }
 
-  /**
-   * 
-   * @param {Array} objs - List of DrawObjects
-   */
-  drawMany(objs){
-    
-  }
-
-  /**
+  /** Clear canvas
    * 
    */
   clear(){
@@ -120,6 +116,11 @@ class DrawObject {
  * All method/attribute names initializing with _ are for internal use of the class only
  */
 class RenderObject {
+  _scale = {
+    'x': 1,
+    'y': 1
+  }
+
   constructor(img, size_x, size_y){
     this.img     = new Image;
     this.img.ref = this;
@@ -138,13 +139,19 @@ class RenderObject {
 
 
   /** Set image clip properties
+   * - Consider original image size, resize scale will be apply automaticaly
    * 
-   * @param {Number} start_x 
-   * @param {Number} start_y 
-   * @param {Number} size_x 
-   * @param {Number} size_y 
+   * @param {Number} start_x
+   * @param {Number} start_y
+   * @param {Number} size_x
+   * @param {Number} size_y
    */
   clip(start_x, start_y, size_x, size_y){
+    start_x = start_x * this._scale.x;
+    start_y = start_y * this._scale.y;
+    size_x  = size_x  * this._scale.x;
+    size_y  = size_y  * this._scale.y;
+    
     this.img.size  = {'x':size_x,  'y':size_y};
     this.img.start = {'x':start_x, 'y':start_y};
   }
@@ -164,10 +171,15 @@ class RenderObject {
     context.imageSmoothingEnabled = false;
     context.drawImage(this.img, 0, 0, width, height);
 
+    this._scale = {
+      'x': width  / this.img.width,
+      'y': height / this.img.height
+    }
+
     this.img     = new Image;
     this.img.ref = this;
     this.img.onload = function(){
-      this.ref.clip(0, 0, this.width, this.height);
+      this.ref.clip(0, 0, this.width / this.ref._scale.x, this.height / this.ref._scale.y);
       this.ref._doOnLoad();
       
       delete this.ref;

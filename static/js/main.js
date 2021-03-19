@@ -54,7 +54,8 @@ $(window).ready(function(){
     '0.8': [ 50, 180,  80]
   }
 
-  let rd = new RenderObject(mapper.print(), 3200, 3200);
+  let scale = 32;
+  let rd = new RenderObject(mapper.print(), size*scale, size*scale);
 
   rd.onLoad(function(render){
     draw_object = new DrawObject(render, 0,0);
