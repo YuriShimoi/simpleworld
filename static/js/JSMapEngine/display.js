@@ -157,6 +157,7 @@ class RenderObject {
   }
 
   /** Resize this.img to given measures, this will also trigger onLoad
+   * - Resize can only be used by no CORS image problems
    * 
    * @param {Number} width 
    * @param {Number} height 

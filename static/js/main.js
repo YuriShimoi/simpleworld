@@ -5,6 +5,9 @@ let engine = new Engine();
 Engine.import("gridmapper.js");
 Engine.import("gridmapper.css");
 Engine.import("procedural.js");
+Engine.import("camera.js"); // DOING
+// Engine.import("layering.js");
+// Engine.import("interactive.js");
 let canvas_div = $(".mapping-canvas")[0];
 
 
