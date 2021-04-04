@@ -3,18 +3,18 @@
  * All method/attribute names initializing with _ are for internal use of the class only
  */
 class Display {
-  static _counter = 0;
+  static _counter         = 0;
+  static _canvas_class    = "JSME-canvas";
+  static _pixelated_class = "canvas-pixelated";
 
-  _container    = null;
-  _canvas       = null;
-  _context      = null;
+  _container = null;
+  _canvas    = null;
+  _context   = null;
 
-  _canvas_class    = "JSME-canvas";
-  _pixelated_class = "canvas-pixelated";
-  _properties      = {
-    'width'        : "1280",
-    'height'       : "720",
-    'class'        : this._canvas_class,
+  _properties = {
+    'width'        : 1280,
+    'height'       : 720,
+    'class'        : Display._canvas_class,
     'oncontextmenu': "return false" // cancel mouse right click menu
   };
 
@@ -31,21 +31,21 @@ class Display {
   createCanvas(prop={}, pixelated=true){
     if(!this._container) return false;
 
-    prop['class'] = 'class' in prop? `${prop.class} ${this._canvas_class}`: this._canvas_class;
+    prop['class'] = 'class' in prop? `${prop.class} ${Display._canvas_class}`: Display._canvas_class;
     prop = {...this._properties, ...prop};
     
-    if(pixelated) prop.class += ` ${this._pixelated_class}`;
+    if(pixelated) prop.class += ` ${Display._pixelated_class}`;
 
     let properties = "";
     for(let p in prop){
       properties += `${p}="${prop[p]}" `;
     }
 
-    let canvas = `<canvas id="${this._canvas_class}-${Display._counter}" ${properties}></canvas>`;
+    let canvas = `<canvas id="${Display._canvas_class}-${Display._counter}" ${properties}></canvas>`;
 
     if(this._canvas) this._canvas.remove();
     $(this._container).append(canvas);
-    this._canvas = $(this._container).find(`#${this._canvas_class}-${Display._counter++}`)[0];
+    this._canvas = $(this._container).find(`#${Display._canvas_class}-${Display._counter++}`)[0];
 
     this._context = this._canvas.getContext("2d");
     this._context.imageSmoothingEnabled = !pixelated;
@@ -105,7 +105,7 @@ class DrawObject {
    * @param {Number} pos_y 
    * @param {Boolean} additive - If is additive to actual position
    */
-  move(pos_x, pos_y, additive = false){
+  move(pos_x, pos_y, additive=false){
     this.pos = additive? {'x':this.pos.x + pos_x, 'y':this.pos.y + pos_y}:{'x':pos_x, 'y':pos_y};
   }
 }
