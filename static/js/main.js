@@ -66,5 +66,22 @@ $(window).ready(function(){
     display_map = new Camera($("#content"));
     display_map.createCanvas();
     display_map.draw(draw_object);
+    display_map.lock(top=0, right=size*scale, bottom=size*scale, left=0);
+
+    grap = new InputGrapper();
+    function cammove(k){
+      let movement = scale;
+      if(k.translation == "d")
+        display_map.move(movement,0,true);
+      if(k.translation == "s")
+        display_map.move(0,movement,true);
+      if(k.translation == "a")
+        display_map.move(-movement,0,true);
+      if(k.translation == "w")
+        display_map.move(0,-movement,true);
+      display_map.clear();
+      display_map.draw(draw_object);
+    }
+    grap.keyboard.down(cammove);
   });
 });

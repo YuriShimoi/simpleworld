@@ -5,6 +5,7 @@
  */
 class Camera extends Display {
   _anchor = null;
+  _lock   = null;
 
   constructor(e=null, screen_width=1280, screen_height=720, pos_x=0, pos_y=0, scale=1){
     super(e);
@@ -23,7 +24,7 @@ class Camera extends Display {
    * @param {DrawObject|InteractiveObject} target 
    * @returns {DrawObject|InteractiveObject} Returns actual anchor if has no given target
    */
-  anchor(target=null){
+  anchor(target=null){ // TODO: if anchor is InteractiveObject put this.move to anchor triggering, remove trigger when change anchor
     if(target == null) return this._anchor;
     this._anchor = target;
   }
@@ -74,14 +75,37 @@ class Camera extends Display {
    * @param {Number} pos_y 
    * @param {Boolean} additive - If is additive to actual position
    */
-  move(pos_x=null, pos_y=null, additive=false){ // TODO: PREVENT PRINT OUTSIDE OF GIVEN AREA
+  move(pos_x=null, pos_y=null, additive=false){
     if(pos_x !== null && pos_y !== null){
       this._pos = additive? {'x':this._pos.x + pos_x, 'y':this._pos.y + pos_y}:{'x':pos_x, 'y':pos_y};
     }
     else if(this._anchor !== null){
-      this._pos.x = this._anchor.pos.x;
-      this._pos.y = this._anchor.pos.y;
+      this._pos.x = this._anchor.pos.x + (this._anchor.render.size.x/2) - (this._properties.width/2);
+      this._pos.y = this._anchor.pos.y + (this._anchor.render.size.y/2) - (this._properties.height/2);
     }
+
+    if(this._lock !== null){
+      if(this._pos.y < this._lock.top)  this._pos.y = this._lock.top;
+      if(this._pos.x < this._lock.left) this._pos.x = this._lock.left;
+      if((this._pos.y + this._properties.height) > this._lock.bottom) this._pos.y = this._lock.bottom - this._properties.height;
+      if((this._pos.x + this._properties.width)  > this._lock.right)  this._pos.x = this._lock.right - this._properties.width;
+    }
+  }
+
+  /** Provides a lock property to prevent camera move outside the given area
+   * 
+   * @param {Number} top 
+   * @param {Number} right 
+   * @param {Number} bottom 
+   * @param {Number} left 
+   */
+  lock(top, right, bottom, left){
+    this._lock = {
+      'top'   : top,
+      'right' : right,
+      'bottom': bottom,
+      'left'  : left
+    };
   }
 
 
