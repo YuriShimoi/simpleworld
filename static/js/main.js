@@ -45,7 +45,7 @@ $(window).ready(function(){
   grid[sx][sy] = 3;
 
   mapper.setMap(grid);
-  mapper.color_mapping = {
+  mapper.mapping = {
     '0'  : "",
     '3'  : [255,   0,   0],
     '2'  : [100, 100, 100],
@@ -57,13 +57,13 @@ $(window).ready(function(){
     '0.8': [ 50, 180,  80]
   }
 
-  let scale = 8;
+  let scale = 16;
   let rd = new RenderObject(mapper.print(), size*scale, size*scale);
 
   rd.onLoad(function(render){
     draw_object = new DrawObject(render, 0,0);
   
-    display_map = new Camera($("#content"));
+    display_map = new Camera($("#content"), $("#content")[0].offsetWidth, $("#content")[0].offsetHeight);
     display_map.createCanvas();
     display_map.draw(draw_object);
     display_map.lock(top=0, right=size*scale, bottom=size*scale, left=0);

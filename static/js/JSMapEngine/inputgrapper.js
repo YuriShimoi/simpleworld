@@ -1,12 +1,15 @@
-/** Grapper who hold mouse and keyboard input events */
+/** Grapper who hold mouse and keyboard input events
+ * 
+ * All method/attribute names initializing with _ are for internal use of the class only
+*/
 class InputGrapper {
-  #container = null;
+  _container = null;
 
   constructor(e='body'){
-    this.#container = $(e)[0];
+    this._container = $(e)[0];
 
-    this.keyboard = new Grapper(this.#container, "keyup", "keydown");
-    this.mouse    = new Grapper(this.#container, "mouseup", "mousedown");
+    this.keyboard = new Grapper(this._container, "keyup", "keydown");
+    this.mouse    = new Grapper(this._container, "mouseup", "mousedown");
   }
 
 
@@ -16,12 +19,12 @@ class InputGrapper {
    * @returns {HTMLElement} self container
    */
   container(e){
-    this.#container = $(e)[0];
+    this._container = $(e)[0];
 
-    this.mouse.container(this.#container);
-    this.keyboard.container(this.#container);
+    this.mouse.container(this._container);
+    this.keyboard.container(this._container);
 
-    return this.#container;
+    return this._container;
   }
 }
 
@@ -31,14 +34,14 @@ class InputGrapper {
  * All method names initializing with _ are for internal use of the class only
 */
 class Grapper {
-  #container = null;
+  _container = null;
   
-  #up_listener;
-  #down_listener;
-  #registers = {'up':[],'down':[]};
+  _up_listener;
+  _down_listener;
+  _registers = {'up':[],'down':[]};
 
-  #prevent_keys = ["tab"];
-  #key_mapping  = {
+  _prevent_keys = ["tab"];
+  _key_mapping  = {
     'keyboard': {
       8  : "backspace",
       9  : "tab",
@@ -76,9 +79,9 @@ class Grapper {
    * @returns {HTMLElement} Self container
    */
   container(e){
-    this.#container = $(e)[0];
+    this._container = $(e)[0];
 
-    return this.#container;
+    return this._container;
   }
 
   /** Register given function to run when trigger up event
@@ -86,7 +89,7 @@ class Grapper {
    * @param {Function} func 
    */
   up(func){
-    this.#registers.up.push(func);
+    this._registers.up.push(func);
   }
 
   /** Register given function to run when trigger down event
@@ -94,7 +97,7 @@ class Grapper {
    * @param {Function} func 
    */
   down(func){
-    this.#registers.down.push(func);
+    this._registers.down.push(func);
   }
 
   /** Remove all trigger of given event type
@@ -103,19 +106,19 @@ class Grapper {
    * @return {Number} Number of affected triggers
    */
   unbind(type){
-    let deleted = this.#registers[type].splice(0);
+    let deleted = this._registers[type].splice(0);
     return deleted.length;
   }
 
 
   _upEvent(e=null){
-    this.#up_listener = this._listenerUp.bind(this);
-    window.addEventListener(e, this.#up_listener);
+    this._up_listener = this._listenerUp.bind(this);
+    window.addEventListener(e, this._up_listener);
   }
 
   _downEvent(e=null){
-    this.#down_listener = this._listenerdown.bind(this);
-    window.addEventListener(e, this.#down_listener);
+    this._down_listener = this._listenerdown.bind(this);
+    window.addEventListener(e, this._down_listener);
   }
 
   _prepareInput(e){
@@ -134,28 +137,28 @@ class Grapper {
     }
 
     let t_default = {'keyboard': String.fromCharCode(key), 'mouse': String(key)};
-    translation   = key in this.#key_mapping[key_type]? this.#key_mapping[key_type][key]: t_default[key_type];
+    translation   = key in this._key_mapping[key_type]? this._key_mapping[key_type][key]: t_default[key_type];
 
     return {
       'code'       : key,
       'type'       : key_type,
       'translation': translation,
       'time'       : parseFloat((e.timeStamp/1000).toFixed(3)),
-      'coord'      : key_type == "mouse"? {'x': e.x - this.#container.offsetLeft, 'y': e.y - this.#container.offsetTop}: null
+      'coord'      : key_type == "mouse"? {'x': e.x - this._container.offsetLeft, 'y': e.y - this._container.offsetTop}: null
     };
   }
 
   _listenerUp(e){
     let key = this._prepareInput(e);
-    if(this.#prevent_keys.includes(key.translation)) e.preventDefault();
+    if(this._prevent_keys.includes(key.translation)) e.preventDefault();
 
-    this.#registers.up.forEach(f => f(key));
+    this._registers.up.forEach(f => f(key));
   }
 
   _listenerdown(e){
     let key = this._prepareInput(e);
-    if(this.#prevent_keys.includes(key.translation)) e.preventDefault();
+    if(this._prevent_keys.includes(key.translation)) e.preventDefault();
  
-    this.#registers.down.forEach(f => f(key));
+    this._registers.down.forEach(f => f(key));
   }
 }

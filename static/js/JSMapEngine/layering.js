@@ -4,7 +4,7 @@
  * 
  * All method/attribute names initializing with _ are for internal use of the class only
  */
-class LayerDisplay extends GridMapper {
+class LayerDisplay extends GridMapper { // CANNOT BE GridMapper EXTENDS BECAUSE DONT NECESSARIALY USE GRID POSITION
   _layer = [];
 
   constructor(size_x, size_y, empty="", container="body"){ // To layering canvases just put an array of Cameras and use just Display extended methods >:(
