@@ -13,7 +13,7 @@ class GridMapper {
   constructor(size_x, size_y, empty="", container="body"){
     this.empty     = empty;
     this.size      = {'x':size_x, 'y':size_y};
-    this.container = container;
+    this.container = $(container)[0];
     this.mapping   = {};
     this.clearMap();
   }
