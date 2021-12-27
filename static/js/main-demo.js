@@ -172,5 +172,10 @@ $(".gen-map").click(function(){
 
 // WAKE UP
 $(window).ready(function(){
-
+  if(window.location.href.includes('?')) {
+    let urlArgs = window.location.href.split("?")[1].split("&").reduce((acc, prev) => acc = {...acc, ...{[prev.split("=")[0]]: prev.split("=")[1]}}, {});
+    if('method' in urlArgs) {
+      document.querySelector(`a.nav-link[target="${urlArgs.method}"]`).click();
+    }
+  }
 });
